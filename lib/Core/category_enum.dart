@@ -8,9 +8,9 @@ enum CategoryType {
   frequency('frequency'),
   power('power'),
   pressure('pressure'),
-  speed('speed'),
-  data('data'),
-  currency('currency');
+  speed('speed');
+ 
+
 
   final String name;
 

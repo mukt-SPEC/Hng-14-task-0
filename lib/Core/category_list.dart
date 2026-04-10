@@ -1,13 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quantify/length.dart';
+
 import 'package:quantify/quantify.dart' as q;
 import 'package:unitcoverter/Core/category_enum.dart';
 import 'package:unitcoverter/Model/unit_category.dart';
 import 'package:unitcoverter/Model/unit_model.dart';
+import 'package:unitcoverter/theme/appcolor.dart';
 import 'package:unitcoverter/utils/extensions.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 final List<UnitCategory> allCategories = [
   UnitCategory(
+    icon: PhosphorIcon(
+      PhosphorIconsDuotone.ruler,
+      duotoneSecondaryColor: AppColor.buttonColor,
+      color: AppColor.textColor,
+      size: 18,
+    ),
     name: CategoryType.length.name.capitalize(),
     type: CategoryType.length,
     units: [
@@ -40,6 +48,12 @@ final List<UnitCategory> allCategories = [
   ),
 
   UnitCategory(
+    icon: PhosphorIcon(
+      PhosphorIconsDuotone.clock,
+      duotoneSecondaryColor: AppColor.buttonColor,
+      color: AppColor.textColor,
+      size: 18,
+    ),
     name: CategoryType.time.name.capitalize(),
     type: CategoryType.time,
     units: [
@@ -72,6 +86,12 @@ final List<UnitCategory> allCategories = [
     ],
   ),
   UnitCategory(
+    icon: PhosphorIcon(
+      PhosphorIconsDuotone.scales,
+      duotoneSecondaryColor: AppColor.buttonColor,
+      color: AppColor.textColor,
+      size: 18,
+    ),
     name: CategoryType.weight.name.capitalize(),
     type: CategoryType.weight,
     units: [
@@ -103,6 +123,12 @@ final List<UnitCategory> allCategories = [
     ],
   ),
   UnitCategory(
+    icon: PhosphorIcon(
+      PhosphorIconsDuotone.thermometer,
+      duotoneSecondaryColor: AppColor.buttonColor,
+      color: AppColor.textColor,
+      size: 18,
+    ),
     name: CategoryType.temperature.name.capitalize(),
     type: CategoryType.temperature,
     units: [
@@ -124,6 +150,12 @@ final List<UnitCategory> allCategories = [
     ],
   ),
   UnitCategory(
+    icon: PhosphorIcon(
+      PhosphorIconsDuotone.jar,
+      duotoneSecondaryColor: AppColor.buttonColor,
+      color: AppColor.textColor,
+      size: 18,
+    ),
     name: CategoryType.volume.name.capitalize(),
     type: CategoryType.volume,
     units: [
