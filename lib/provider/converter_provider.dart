@@ -1,34 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:unitcoverter/Core/category_enum.dart';
 import 'package:unitcoverter/Model/unit_category.dart';
 import 'package:unitcoverter/Model/unit_model.dart';
 import 'package:unitcoverter/provider/category_provider.dart';
 import 'package:quantify/quantify.dart' as q;
 
-// class ConverterProvider extends StateNotifier<UnitCategory> {
-//   ConverterProvider() : super(UnitCategory());
-// }
-
-// final converterProvider = StateNotifierProvider<ConverterProvider, UnitCategory>((ref) {
-//   return ConverterProvider();
-// });
-
 class ConverterState {
   final UnitCategory category;
   final UnitModel unitTop;
   final UnitModel unitBottom;
-  final double valueTop;
+  final double? valueTop;
   final CategoryType type;
-  final double valueBottom;
+  final double? valueBottom;
 
   ConverterState({
     required this.category,
     required this.unitTop,
     required this.unitBottom,
-    required this.valueTop,
+    this.valueTop,
     required this.type,
-    required this.valueBottom,
+    this.valueBottom,
   });
 
   ConverterState copyWith({
@@ -38,14 +29,15 @@ class ConverterState {
     double? valueTop,
     CategoryType? type,
     double? valueBottom,
+    bool clearValues = false,
   }) {
     return ConverterState(
       category: category ?? this.category,
       unitTop: unitTop ?? this.unitTop,
       unitBottom: unitBottom ?? this.unitBottom,
-      valueTop: valueTop ?? this.valueTop,
+      valueTop: clearValues ? null : (valueTop ?? this.valueTop),
       type: type ?? this.type,
-      valueBottom: valueBottom ?? this.valueBottom,
+      valueBottom: clearValues ? null : (valueBottom ?? this.valueBottom),
     );
   }
 }
@@ -62,9 +54,9 @@ class ConverterNotifier extends Notifier<ConverterState> {
       category: category,
       unitTop: unitTop,
       unitBottom: unitBottom,
-      valueTop: 0.0,
+      valueTop: null,
       type: category.type,
-      valueBottom: 0.0,
+      valueBottom: null,
     );
   }
 
@@ -105,39 +97,44 @@ class ConverterNotifier extends Notifier<ConverterState> {
     return quantity.convertTo(to.quantity).value;
   }
 
-  void updateFromTop(double newvalue) {
+  void updateFromTop(double? newvalue) {
+    if (newvalue == null) {
+      state = state.copyWith(clearValues: true);
+      return;
+    }
     final convertedValue = _convert(newvalue, state.unitTop, state.unitBottom);
     state = state.copyWith(valueTop: newvalue, valueBottom: convertedValue);
   }
 
-  void updateFromBottom(double newvalue) {
+  void updateFromBottom(double? newvalue) {
+    if (newvalue == null) {
+      state = state.copyWith(clearValues: true);
+      return;
+    }
     final convertedValue = _convert(newvalue, state.unitBottom, state.unitTop);
     state = state.copyWith(valueBottom: newvalue, valueTop: convertedValue);
   }
 
   void updateFromTopUnit(UnitModel unit) {
-    final convertedValue = _convert(state.valueTop, unit, state.unitBottom);
+    if (state.valueTop == null) {
+      state = state.copyWith(unitTop: unit);
+      return;
+    }
+    final convertedValue = _convert(state.valueTop!, unit, state.unitBottom);
     state = state.copyWith(unitTop: unit, valueBottom: convertedValue);
   }
 
   void updateFromBottomUnit(UnitModel unit) {
-    final convertedValue = _convert(state.valueBottom, unit, state.unitTop);
+    if (state.valueBottom == null) {
+      state = state.copyWith(unitBottom: unit);
+      return;
+    }
+    final convertedValue = _convert(state.valueBottom!, unit, state.unitTop);
     state = state.copyWith(unitBottom: unit, valueTop: convertedValue);
   }
-
-  // void setFromUnit(UnitModel unit) {
-  //   state = state.copyWith(unitA: unit);
-  // }
-
-  // void setToUnit(UnitModel unit) {
-  //   state = state.copyWith(unitB: unit);
-  // }
-
-  // void setValueA(double value) {
-  //   state = state.copyWith(valueA: value);
-  // }
-
-  // void setValueB(double value) {
-  //   state = state.copyWith(valueB: value);
-  // }
 }
+
+final converterProvider =
+    NotifierProvider.autoDispose<ConverterNotifier, ConverterState>(() {
+      return ConverterNotifier();
+    });

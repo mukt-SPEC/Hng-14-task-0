@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:unitcoverter/Core/category_enum.dart';
 import 'package:unitcoverter/Model/unit_model.dart';
 
 class UnitCategory {
   final String name;
-  final PhosphorIcon icon;
+  final PhosphorIconData icon;
   final CategoryType type;
   final List<UnitModel> units;
 
