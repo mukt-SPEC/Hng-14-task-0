@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unitcoverter/Model/unit_model.dart';
 import 'package:unitcoverter/theme/appcolor.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:unitcoverter/provider/theme_provider.dart';
 
-class UnitInput extends StatelessWidget {
+class UnitInput extends ConsumerWidget {
   final double? value;
   final UnitModel selectedUnit;
   final List<UnitModel> subUnit;
@@ -22,11 +24,17 @@ class UnitInput extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeProvider);
+    final isDark = themeMode == ThemeMode.dark ||
+        (themeMode == ThemeMode.system &&
+            MediaQuery.platformBrightnessOf(context) == Brightness.dark);
+    final colors = isDark ? AppColors.dark : AppColors.light;
+
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColor.cardColor,
+        color: colors.cardColor,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -35,16 +43,16 @@ class UnitInput extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: AppColor.backgroundColor,
+              color: colors.backgroundColor,
               borderRadius: BorderRadius.circular(12),
             ),
             child: DropdownButtonHideUnderline(
               child: DropdownButton<UnitModel>(
                 value: selectedUnit,
-                dropdownColor: AppColor.cardColor,
-                icon: const Icon(
+                dropdownColor: colors.cardColor,
+                icon: Icon(
                   Icons.keyboard_arrow_down,
-                  color: AppColor.secondaryTextColor,
+                  color: colors.secondaryTextColor,
                 ),
                 isExpanded: true,
                 onChanged: onUnitChanged,
@@ -53,8 +61,8 @@ class UnitInput extends StatelessWidget {
                     value: unit,
                     child: Text(
                       "${unit.name} (${unit.symbol})",
-                      style: GoogleFonts.robotoMono(
-                        color: AppColor.textColor,
+                      style: GoogleFonts.geistMono(
+                        color: colors.textColor,
                         fontSize: 16,
                       ),
                     ),
@@ -65,22 +73,24 @@ class UnitInput extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: TextField(
+              textAlign: TextAlign.end,
+              cursorColor: colors.textColor,
               controller: controller,
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              style: GoogleFonts.robotoMono(
+              style: GoogleFonts.geistMono(
                 fontSize: 32,
                 fontWeight: FontWeight.w600,
-                color: AppColor.textColor,
+                color: colors.textColor,
               ),
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '0.0',
-                hintStyle: GoogleFonts.robotoMono(
-                  color: AppColor.secondaryTextColor.withValues(alpha: 0.5),
+                hintStyle: GoogleFonts.geistMono(
+                  color: colors.secondaryTextColor.withValues(alpha: 0.5),
                 ),
               ),
               onChanged: (text) {
