@@ -33,7 +33,7 @@ class AppColors {
   );
 
   static const AppColors light = AppColors(
-    backgroundColor: Color(0xfff5f5f7),
+    backgroundColor: Color(0xfffaf9f5),
     textColor: Color(0xff121212),
     buttonColor: Color(0xff007bff),
     cardColor: Color(0xffffffff),

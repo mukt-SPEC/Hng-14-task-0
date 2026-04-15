@@ -24,15 +24,12 @@ class _TodoBottomSheetState extends ConsumerState<TodoBottomSheet> {
   late final TextEditingController _noteController;
   late DateTime _selectedDate;
   bool _showDatePicker = false;
-
-  bool _datePicked = false;
   bool _titleTouched = false;
 
   bool get _isEditing => widget.todo != null;
 
   bool get _titleValid => _titleController.text.trim().isNotEmpty;
-  bool get _dateValid => _isEditing || _datePicked;
-  bool get _canSubmit => _titleValid && _dateValid;
+  bool get _canSubmit => _titleValid;
 
   @override
   void initState() {
@@ -161,7 +158,8 @@ class _TodoBottomSheetState extends ConsumerState<TodoBottomSheet> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => setState(() => _showDatePicker = !_showDatePicker),
+                  onTap: () =>
+                      setState(() => _showDatePicker = !_showDatePicker),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -170,31 +168,19 @@ class _TodoBottomSheetState extends ConsumerState<TodoBottomSheet> {
                     decoration: BoxDecoration(
                       color: colors.cardColor,
                       borderRadius: BorderRadius.circular(12),
-                      border: (!_isEditing && !_datePicked)
-                          ? Border.all(
-                              color: Colors.orange.withValues(alpha: 0.5),
-                              width: 1.2,
-                            )
-                          : null,
                     ),
                     child: Row(
                       children: [
                         PhosphorIcon(
                           PhosphorIconsRegular.calendar,
-                          color: (!_isEditing && !_datePicked)
-                              ? Colors.orange
-                              : colors.secondaryTextColor,
+                          color: colors.secondaryTextColor,
                           size: 18,
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          _datePicked || _isEditing
-                              ? DateFormat('EEE, MMM d y').format(_selectedDate)
-                              : 'Select a due date',
+                          DateFormat('EEE, MMM d y').format(_selectedDate),
                           style: AppTextStyles.monoBodyMedium.copyWith(
-                            color: (_datePicked || _isEditing)
-                                ? colors.textColor
-                                : colors.secondaryTextColor,
+                            color: colors.textColor,
                           ),
                         ),
                         const Spacer(),
@@ -209,16 +195,6 @@ class _TodoBottomSheetState extends ConsumerState<TodoBottomSheet> {
                     ),
                   ),
                 ),
-                if (!_isEditing && !_datePicked)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4, top: 5),
-                    child: Text(
-                      'Please select a due date',
-                      style: AppTextStyles.labelSmall.copyWith(
-                        color: Colors.orange,
-                      ),
-                    ),
-                  ),
               ],
             ),
 
@@ -241,7 +217,6 @@ class _TodoBottomSheetState extends ConsumerState<TodoBottomSheet> {
                         onDateTimeChanged: (date) {
                           setState(() {
                             _selectedDate = date;
-                            _datePicked = true;
                           });
                         },
                       ),
@@ -265,9 +240,7 @@ class _TodoBottomSheetState extends ConsumerState<TodoBottomSheet> {
               child: Text(
                 _isEditing ? 'Save Changes' : 'Add Task',
                 style: AppTextStyles.labelLarge.copyWith(
-                  color: _canSubmit
-                      ? Colors.white
-                      : colors.secondaryTextColor,
+                  color: _canSubmit ? Colors.white : colors.secondaryTextColor,
                 ),
               ),
             ),
