@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:unitcoverter/presentation/home.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:unitcoverter/Model/todo_model.dart';
+import 'package:unitcoverter/presentation/root_screen.dart';
 import 'package:unitcoverter/provider/theme_provider.dart';
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(TodoModelAdapter());
+  await Hive.openBox<TodoModel>('todos');
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -16,7 +21,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      home: const RootScreen(),
       themeMode: themeMode,
       theme: ThemeData(
         brightness: Brightness.light,

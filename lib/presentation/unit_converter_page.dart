@@ -6,7 +6,7 @@ import 'package:unitcoverter/provider/category_provider.dart';
 import 'package:unitcoverter/provider/converter_provider.dart';
 import 'package:unitcoverter/theme/appcolor.dart';
 import 'package:unitcoverter/presentation/widget/unit_input.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:unitcoverter/theme/text_styles.dart';
 import 'package:unitcoverter/provider/theme_provider.dart';
 import 'package:unitcoverter/presentation/widget/settings_modal.dart';
 
@@ -73,25 +73,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       backgroundColor: colors.backgroundColor,
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            backgroundColor: Colors.transparent,
-            builder: (_) => const SettingsModal(),
-          );
-        },
-        backgroundColor: colors.cardColor,
-        child: PhosphorIcon(PhosphorIconsFill.gear, color: colors.textColor),
-      ),
       appBar: AppBar(
         titleSpacing: 16,
         elevation: 0,
-        title: Text(
-          "Unit Converter",
-          style: GoogleFonts.geistMono(fontWeight: FontWeight.w600),
-        ),
+        title: Text("Unit Converter", style: AppTextStyles.titleLarge),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: SingleChildScrollView(
@@ -121,15 +106,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       selectedColor: colors.cardColor,
                       showCheckmark: false,
                       label: Text(category.name),
-                      labelStyle: GoogleFonts.geistMono(
-                        fontSize: 14,
-                        color: isSelected
-                            ? colors.textColor
-                            : colors.secondaryTextColor,
-                        fontWeight: isSelected
-                            ? FontWeight.w700
-                            : FontWeight.normal,
-                      ),
+                      labelStyle: isSelected
+                          ? AppTextStyles.monoBodyMedium.copyWith(
+                              color: colors.textColor,
+                              fontWeight: FontWeight.w700,
+                            )
+                          : AppTextStyles.monoBodyMedium.copyWith(
+                              color: colors.secondaryTextColor,
+                            ),
                       selected: isSelected,
                       onSelected: (selected) {
                         ref.read(activeCategoryindexProovider.notifier).state =

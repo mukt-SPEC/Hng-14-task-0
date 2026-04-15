@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:unitcoverter/theme/text_styles.dart';
 import 'package:unitcoverter/provider/theme_provider.dart';
 import 'package:unitcoverter/theme/appcolor.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -36,16 +36,14 @@ class SettingsModal extends ConsumerWidget {
               children: [
                 Text(
                   "Theme",
-                  style: GoogleFonts.geistMono(
+                  style: AppTextStyles.monoTitleLarge.copyWith(
                     color: colors.textColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 IconButton.filled(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: PhosphorIcon(
-                    PhosphorIconsFill.x,
+                    PhosphorIconsBold.x,
                     size: 16,
                     color: colors.textColor,
                   ),
@@ -91,9 +89,8 @@ class SettingsModal extends ConsumerWidget {
                 children: [
                   Text(
                     "System",
-                    style: GoogleFonts.geistMono(
+                    style: AppTextStyles.monoBodyMedium.copyWith(
                       color: colors.textColor,
-                      fontSize: 14,
                     ),
                   ),
                   Switch(
@@ -216,9 +213,8 @@ class SettingsModal extends ConsumerWidget {
           const SizedBox(height: 8),
           Text(
             title,
-            style: GoogleFonts.geistMono(
+            style: AppTextStyles.monoBodyMedium.copyWith(
               color: isSelected ? colors.textColor : colors.secondaryTextColor,
-              fontSize: 14,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
           ),

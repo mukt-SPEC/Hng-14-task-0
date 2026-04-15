@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:unitcoverter/theme/text_styles.dart';
 import 'package:unitcoverter/Model/unit_model.dart';
 import 'package:unitcoverter/theme/appcolor.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -61,9 +61,8 @@ class UnitInput extends ConsumerWidget {
                     value: unit,
                     child: Text(
                       "${unit.name} (${unit.symbol})",
-                      style: GoogleFonts.geistMono(
+                      style: AppTextStyles.monoBodyLarge.copyWith(
                         color: colors.textColor,
-                        fontSize: 16,
                       ),
                     ),
                   );
@@ -81,15 +80,13 @@ class UnitInput extends ConsumerWidget {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              style: GoogleFonts.geistMono(
-                fontSize: 32,
-                fontWeight: FontWeight.w600,
+              style: AppTextStyles.monoDisplay.copyWith(
                 color: colors.textColor,
               ),
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '0.0',
-                hintStyle: GoogleFonts.geistMono(
+                hintStyle: AppTextStyles.monoDisplay.copyWith(
                   color: colors.secondaryTextColor.withValues(alpha: 0.5),
                 ),
               ),
