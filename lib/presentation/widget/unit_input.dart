@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:unitcoverter/theme/text_styles.dart';
-import 'package:unitcoverter/Model/unit_model.dart';
+import 'package:unitcoverter/model/unit_model.dart';
 import 'package:unitcoverter/theme/appcolor.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:unitcoverter/provider/theme_provider.dart';
@@ -80,6 +81,9 @@ class UnitInput extends ConsumerWidget {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+              ],
               style: AppTextStyles.monoDisplay.copyWith(
                 color: colors.textColor,
               ),

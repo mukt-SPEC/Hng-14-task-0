@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:unitcoverter/Core/category_enum.dart';
-import 'package:unitcoverter/Model/unit_category.dart';
-import 'package:unitcoverter/Model/unit_model.dart';
+import 'package:unitcoverter/model/unit_category.dart';
+import 'package:unitcoverter/model/unit_model.dart';
 import 'package:unitcoverter/provider/category_provider.dart';
 import 'package:quantify/quantify.dart' as q;
 

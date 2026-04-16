@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:unitcoverter/Model/todo_model.dart';
+import 'package:unitcoverter/model/todo_model.dart';
 import 'package:unitcoverter/provider/theme_provider.dart';
 import 'package:unitcoverter/provider/todo_provider.dart';
 import 'package:unitcoverter/theme/appcolor.dart';
@@ -83,168 +83,179 @@ class _TodoBottomSheetState extends ConsumerState<TodoBottomSheet> {
         (themeMode == ThemeMode.system &&
             MediaQuery.platformBrightnessOf(context) == Brightness.dark);
     final colors = isDark ? AppColors.dark : AppColors.light;
+    final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
+    final keyboardOpen = bottomInset > 0;
+    final showInlineDatePicker = _showDatePicker && !keyboardOpen;
+    final now = DateTime.now();
 
     return Container(
       padding: EdgeInsets.only(
         left: 24,
         right: 24,
         top: 24,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+        bottom: bottomInset + 24,
       ),
       decoration: BoxDecoration(
         color: colors.backgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  _isEditing ? 'Edit Task' : 'New Task',
-                  style: AppTextStyles.monoTitleLarge.copyWith(
-                    color: colors.textColor,
-                  ),
-                ),
-                IconButton.filled(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: PhosphorIcon(
-                    PhosphorIconsBold.x,
-                    size: 16,
-                    color: colors.textColor,
-                  ),
-                  style: IconButton.styleFrom(
-                    backgroundColor: colors.cardColor,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-
-            _InputField(
-              controller: _titleController,
-              label: 'Title',
-              hint: 'What needs to be done?',
-              colors: colors,
-              errorText: (_titleTouched && !_titleValid)
-                  ? 'Title cannot be empty'
-                  : null,
-              onChanged: (_) => setState(() => _titleTouched = true),
-            ),
-            const SizedBox(height: 12),
-
-            _InputField(
-              controller: _noteController,
-              label: 'Note',
-              hint: 'Add a note (optional)',
-              colors: colors,
-              maxLines: 3,
-            ),
-            const SizedBox(height: 12),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 4, bottom: 6),
-                  child: Text(
-                    'Due Date',
-                    style: AppTextStyles.monoLabel.copyWith(
-                      color: colors.secondaryTextColor,
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _isEditing ? 'Edit Task' : 'New Task',
+                    style: AppTextStyles.monoTitleLarge.copyWith(
+                      color: colors.textColor,
                     ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () =>
-                      setState(() => _showDatePicker = !_showDatePicker),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
+                  IconButton.filled(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: PhosphorIcon(
+                      PhosphorIconsBold.x,
+                      size: 16,
+                      color: colors.textColor,
                     ),
-                    decoration: BoxDecoration(
-                      color: colors.cardColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        PhosphorIcon(
-                          PhosphorIconsRegular.calendar,
-                          color: colors.secondaryTextColor,
-                          size: 18,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          DateFormat('EEE, MMM d y').format(_selectedDate),
-                          style: AppTextStyles.monoBodyMedium.copyWith(
-                            color: colors.textColor,
-                          ),
-                        ),
-                        const Spacer(),
-                        PhosphorIcon(
-                          _showDatePicker
-                              ? PhosphorIconsRegular.caretUp
-                              : PhosphorIconsRegular.caretDown,
-                          color: colors.secondaryTextColor,
-                          size: 16,
-                        ),
-                      ],
+                    style: IconButton.styleFrom(
+                      backgroundColor: colors.cardColor,
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+              const SizedBox(height: 24),
 
-            AnimatedSize(
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeInOut,
-              child: _showDatePicker
-                  ? Container(
-                      height: 180,
-                      margin: const EdgeInsets.only(top: 4),
+              _InputField(
+                controller: _titleController,
+                label: 'Title',
+                hint: 'What needs to be done?',
+                colors: colors,
+                errorText: (_titleTouched && !_titleValid)
+                    ? 'Title cannot be empty'
+                    : null,
+                onChanged: (_) => setState(() => _titleTouched = true),
+              ),
+              const SizedBox(height: 12),
+
+              _InputField(
+                controller: _noteController,
+                label: 'Note',
+                hint: 'Add a note (optional)',
+                colors: colors,
+                maxLines: 3,
+              ),
+              const SizedBox(height: 12),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4, bottom: 6),
+                    child: Text(
+                      'Due Date',
+                      style: AppTextStyles.monoLabel.copyWith(
+                        color: colors.secondaryTextColor,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      FocusScope.of(context).unfocus();
+                      setState(() => _showDatePicker = !_showDatePicker);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                       decoration: BoxDecoration(
                         color: colors.cardColor,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: CupertinoDatePicker(
-                        mode: CupertinoDatePickerMode.date,
-                        initialDateTime: _selectedDate,
-                        minimumDate: DateTime(2026),
-                        maximumDate: DateTime(2100),
-                        onDateTimeChanged: (date) {
-                          setState(() {
-                            _selectedDate = date;
-                          });
-                        },
+                      child: Row(
+                        children: [
+                          PhosphorIcon(
+                            PhosphorIconsRegular.calendar,
+                            color: colors.secondaryTextColor,
+                            size: 18,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            DateFormat('EEE, MMM d y').format(_selectedDate),
+                            style: AppTextStyles.monoBodyMedium.copyWith(
+                              color: colors.textColor,
+                            ),
+                          ),
+                          const Spacer(),
+                          PhosphorIcon(
+                            showInlineDatePicker
+                                ? PhosphorIconsRegular.caretUp
+                                : PhosphorIconsRegular.caretDown,
+                            color: colors.secondaryTextColor,
+                            size: 16,
+                          ),
+                        ],
                       ),
-                    )
-                  : const SizedBox.shrink(),
-            ),
+                    ),
+                  ),
+                ],
+              ),
 
-            const SizedBox(height: 24),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeInOut,
+                child: showInlineDatePicker
+                    ? Container(
+                        height: 180,
+                        margin: const EdgeInsets.only(top: 4),
+                        decoration: BoxDecoration(
+                          color: colors.cardColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: CupertinoDatePicker(
+                          mode: CupertinoDatePickerMode.date,
+                          initialDateTime: _selectedDate,
+                          minimumDate: DateTime(now.year, now.month, now.day),
+                          maximumDate: DateTime(2100),
+                          onDateTimeChanged: (date) {
+                            setState(() {
+                              _selectedDate = date;
+                            });
+                          },
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
 
-            FilledButton(
-              onPressed: _canSubmit ? _submit : null,
-              style: FilledButton.styleFrom(
-                backgroundColor: _canSubmit
-                    ? colors.buttonColor
-                    : colors.secondaryTextColor.withValues(alpha: 0.3),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+              const SizedBox(height: 24),
+
+              FilledButton(
+                onPressed: _canSubmit ? _submit : null,
+                style: FilledButton.styleFrom(
+                  backgroundColor: _canSubmit
+                      ? colors.buttonColor
+                      : colors.secondaryTextColor.withValues(alpha: 0.3),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  _isEditing ? 'Save Changes' : 'Add Task',
+                  style: AppTextStyles.labelLarge.copyWith(
+                    color: _canSubmit
+                        ? Colors.white
+                        : colors.secondaryTextColor,
+                  ),
                 ),
               ),
-              child: Text(
-                _isEditing ? 'Save Changes' : 'Add Task',
-                style: AppTextStyles.labelLarge.copyWith(
-                  color: _canSubmit ? Colors.white : colors.secondaryTextColor,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

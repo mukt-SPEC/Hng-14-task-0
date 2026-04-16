@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:unitcoverter/Model/todo_model.dart';
+import 'package:unitcoverter/model/todo_model.dart';
 import 'package:unitcoverter/presentation/screens/root_screen.dart';
 import 'package:unitcoverter/provider/theme_provider.dart';
 void main() async {

@@ -1,7 +1,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:unitcoverter/Model/todo_model.dart';
+import 'package:unitcoverter/model/todo_model.dart';
 import 'package:unitcoverter/service/todo_db.dart';
 
 class TodoNotifier extends StateNotifier<List<TodoModel>> {

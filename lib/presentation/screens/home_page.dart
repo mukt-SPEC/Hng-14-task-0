@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:unitcoverter/Model/todo_model.dart';
+import 'package:unitcoverter/model/todo_model.dart';
 import 'package:unitcoverter/provider/theme_provider.dart';
 import 'package:unitcoverter/provider/todo_provider.dart';
 import 'package:unitcoverter/theme/appcolor.dart';

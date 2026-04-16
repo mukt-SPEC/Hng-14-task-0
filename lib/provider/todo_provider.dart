@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:hive/hive.dart';
-import 'package:unitcoverter/Model/todo_model.dart';
+import 'package:unitcoverter/model/todo_model.dart';
 import 'package:unitcoverter/notifiers/todo_notifier.dart';
 import 'package:unitcoverter/service/todo_db.dart';
 
