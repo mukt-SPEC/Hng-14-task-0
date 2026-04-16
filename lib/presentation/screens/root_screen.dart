@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:unitcoverter/presentation/unit_converter_page.dart';
-import 'package:unitcoverter/presentation/home_page.dart';
-import 'package:unitcoverter/presentation/todo_page.dart';
+import 'package:unitcoverter/presentation/screens/unit_converter_page.dart';
+import 'package:unitcoverter/presentation/screens/home_page.dart';
+import 'package:unitcoverter/presentation/screens/todo_page.dart';
 import 'package:unitcoverter/provider/theme_provider.dart';
 import 'package:unitcoverter/theme/appcolor.dart';
 

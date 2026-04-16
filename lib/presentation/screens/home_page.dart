@@ -7,6 +7,7 @@ import 'package:unitcoverter/provider/theme_provider.dart';
 import 'package:unitcoverter/provider/todo_provider.dart';
 import 'package:unitcoverter/theme/appcolor.dart';
 import 'package:unitcoverter/theme/text_styles.dart';
+import 'package:unitcoverter/utils/app_images.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -48,27 +49,31 @@ class HomePage extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                RichText(
-                  text: TextSpan(
-                    style: AppTextStyles.headlineMedium.copyWith(
-                      color: colors.secondaryTextColor,
-                      fontWeight: FontWeight.bold,
-                      height: 1.2,
-                    ),
-                    children: [
-                      const TextSpan(text: 'Your all in one \n'),
-                      TextSpan(
-                        text: 'Productivity',
-                        style: AppTextStyles.headlineMedium.copyWith(
-                          color: colors.buttonColor,
-                          fontWeight: FontWeight.bold,
-                          height: 1.2,
-                        ),
-                      ),
-                      const TextSpan(text: ' Suite'),
-                    ],
-                  ),
+                Text(
+                  DateFormat('EEEE, MMM d').format(DateTime.now()),
+                  style: AppTextStyles.monoDisplay.copyWith(fontSize: 24),
                 ),
+                // RichText(
+                //   text: TextSpan(
+                //     style: AppTextStyles.headlineMedium.copyWith(
+                //       color: colors.secondaryTextColor,
+                //       fontWeight: FontWeight.bold,
+                //       height: 1.2,
+                //     ),
+                //     children: [
+                //       const TextSpan(text: 'Your all in one \n'),
+                //       TextSpan(
+                //         text: 'Productivity',
+                //         style: AppTextStyles.headlineMedium.copyWith(
+                //           color: colors.buttonColor,
+                //           fontWeight: FontWeight.bold,
+                //           height: 1.2,
+                //         ),
+                //       ),
+                //       const TextSpan(text: ' Suite'),
+                //     ],
+                //   ),
+                // ),
                 IconButton.filled(
                   onPressed: () {
                     ref
@@ -87,15 +92,34 @@ class HomePage extends ConsumerWidget {
               ],
             ),
 
-            const SizedBox(height: 28),
+            const SizedBox(height: 256),
 
-            // Today reminder card
-            _TodayReminderCard(
-              colors: colors,
-              isDark: isDark,
-              todayTasks: todayTasks,
-              pendingCount: pendingTodayCount,
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 16,
+                children: [
+                  PhosphorIcon(PhosphorIconsFill.cookingPot, size: 64),
+
+                  Text(
+                    "We're whipping up some new features for you. Check back soon!",
+                    style: AppTextStyles.headlineMedium.copyWith(
+                      color: colors.secondaryTextColor,
+                      fontWeight: FontWeight.bold,
+                      height: 1.2,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
+
+            // _TodayReminderCard(
+            //   colors: colors,
+            //   isDark: isDark,
+            //   todayTasks: todayTasks,
+            //   pendingCount: pendingTodayCount,
+            // ),
           ],
         ),
       ),
